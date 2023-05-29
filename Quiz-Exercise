@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Quiz Aplication</title>
+        
+
+        
+    </head>
+    <body>
+
+        <div class="question-container">
+            <p id="pergunta"></p>
+        </div>
+        <div class="answers">
+        <input id="r1" type="checkbox">resposta 1</input>
+        <input id="r2" type="checkbox">resposta 2</input>
+        <input id="r3" type="checkbox">resposta 3</input>
+        <input id="r4" type="checkbox">resposta 4</input>
+        </div>
+
+        <div class="send-answer">
+            <button type="button" id="next-button">NEXT</button>
+            <button type="button" id="submit-button">SUBMIT QUIZ</button>
+        </div>
+
+        <footer>
+            <progress id="file" value="10" max="100"> 32% </progress>
+        </footer>
+        <script>
+
+            "use strict"
+            let questions= [
+                "Question 1",
+                "Question 2",
+                "Question 3",
+                "Question 4"
+                
+            ]
+          
+            let i=0;
+            let j=0;
+            document.getElementById("next-button").addEventListener("click",nextQuestion);
+        
+
+            
+            document.getElementById("pergunta").innerHTML=questions[0];
+            document.getElementById("r1").innerHTML=answer[0][0];
+            document.getElementById("r2").innerHTML=answer[0][1];
+            document.getElementById("r3").innerHTML=answer[0][2];
+            document.getElementById("r4").innerHTML=answer[0][3];
+            
+
+            function nextQuestion(e) {
+                i++;
+                document.getElementById("pergunta").innerHTML=questions[i];
+            
+            }
+
+
+            function nextAnswer(e) {
+                j++;
+            document.getElementById("r1").innerHTML=answer[j][0];
+            document.getElementById("r2").innerHTML=answer[j][1];
+            document.getElementById("r3").innerHTML=answer[j][2];
+            document.getElementById("r4").innerHTML=answer[j][3];
+
+            }
+
+
+            
+        </script>
+        
+        
+    </body>
+</html>
+
