@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <style>
+        #container{
+            width:250px;
+            height:320px;
+            background-color: gray;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #joke{
+            height:250px;
+            width: 200px;
+            background-color:white;
+            margin-bottom: 10px;
+    
+        }
+        #bt{
+            background-color:aqua;
+            
+        }
+        #hd{
+            background: aqua;
+            margin-bottom: 10px;
+        }
+
+    </style>
+    
+</head>
+<body>
+
+
+
+    <div id="container">
+        <h id="hd">Generate a randon joke!</h>
+
+    <div id="joke"></div>
+
+    <button id="bt">Get Joke</button>
+    </div>
+
+
+    <script>
+
+        document.getElementById("bt").addEventListener('click',loadDoc);
+
+    function loadDoc() {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 ) {
+            if(this.status==200){
+                const obj=JSON.parse(this.responseText);
+                document.getElementById("joke").innerHTML=obj.value;
+            }
+            else{
+                document.getElementById("joke").innerHTML="Alguma coisa deu errado :("
+
+            }
+
+        }
+    };
+    xhttp.open("GET", "https://api.chucknorris.io/jokes/random", true);
+    xhttp.send();
+}
+
+    </script>
+
+
+</body>
+</html>
