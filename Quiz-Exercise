@@ -4,6 +4,27 @@
     <head>
         <meta charset="utf-8">
         <title>Quiz Aplication</title>
+
+        <style>
+            #myprogress{
+                width:30%;
+                background-color: #ddd;
+                
+            }
+            #mybar{
+                width: 0%;
+                height: 16px;
+                background-color: green;
+                text-align: center;
+                
+                
+                
+                
+            }
+            #alerta{
+                color:red;
+            }
+        </style>
         
 
         
@@ -13,66 +34,125 @@
         <div class="question-container">
             <p id="pergunta"></p>
         </div>
-        <div class="answers">
-        <input id="r1" type="checkbox">resposta 1</input>
-        <input id="r2" type="checkbox">resposta 2</input>
-        <input id="r3" type="checkbox">resposta 3</input>
-        <input id="r4" type="checkbox">resposta 4</input>
-        </div>
+        <form class="answers" id="asd">
+        <input type="radio" id="r1"  name="resp">
+        <label for="r1" id="l1">a</label><br>
+        <input type="radio" id="r2"  name="resp">
+        <label for="r2" id="l2">b</label><br>
+        <input type="radio" id="r3" name="resp">
+        <label for="r3" id="l3">c</label><br>
+        <input type="radio" id="r4"  name="resp">
+        <label for="r4" id="l4">d</label><br>
+        </form>
 
         <div class="send-answer">
             <button type="button" id="next-button">NEXT</button>
             <button type="button" id="submit-button">SUBMIT QUIZ</button>
         </div>
+       <br>
 
-        <footer>
-            <progress id="file" value="10" max="100"> 32% </progress>
-        </footer>
+        <div id="myprogress">
+            <div id="mybar">
+                1
+            </div>
+        </div><br>
+        <div id="results"></div>
+        <div id="alerta"></div>
+
+
         <script>
 
             "use strict"
             let questions= [
-                "Question 1",
-                "Question 2",
-                "Question 3",
-                "Question 4"
+                "Qual é o maior rio do mundo em comprimento?",
+                "Em qual continente está localizado o Monte Everest?",
+                "Qual é a capital do Canadá?",
+                "Qual é o nome do deserto mais seco do mundo?"
                 
             ]
+
+            let answer= [
+                ["Amazonas", "Nilo", "Yangtze", "Mississipi" ],
+                ["África", "Europa", "Ásia", " América do Norte" ],
+                ["Toronto", "Ottawa", "Montreal", "Vancouver" ],
+                [" Saara", "Gobi", "Atacama", "Kalahari" ]
+            ]
+
+            let rightAns = [
+            "Nilo", "Ásia", "Ottawa", "Atacama"
+            ]
+            let respostas=[];
           
             let i=0;
-            let j=0;
             document.getElementById("next-button").addEventListener("click",nextQuestion);
-        
-
-            
             document.getElementById("pergunta").innerHTML=questions[0];
-            document.getElementById("r1").innerHTML=answer[0][0];
-            document.getElementById("r2").innerHTML=answer[0][1];
-            document.getElementById("r3").innerHTML=answer[0][2];
-            document.getElementById("r4").innerHTML=answer[0][3];
-            
+            document.getElementById("l1").innerHTML=answer[0][0];
+            document.getElementById("l2").innerHTML=answer[0][1];
+            document.getElementById("l3").innerHTML=answer[0][2];
+            document.getElementById("l4").innerHTML=answer[0][3];
 
+            var width=0;
+            
             function nextQuestion(e) {
+
+                if(document.querySelector('input[type="radio"]:checked')===null){
+                    document.getElementById("alerta").innerHTML="Você precisa selecionar 1 item antes de prosseguir";return;
+                }
+
+                if(document.getElementById("alerta").innerHTML!=""){
+                    document.getElementById("alerta").innerHTML=""
+                }
+                if(i===3){
+                    respostas.push(document.querySelector('input[type="radio"]:checked').nextElementSibling.textContent)
+                    var elem = document.getElementById("mybar");
+                    width+=25;
+                    elem.style.width = width + "%";
+                    document.getElementById("mybar").innerHTML="Fim";
+                    document.getElementById("pergunta").innerHTML="Voce chegou ao fim do quiz,para submeter suas respostas,basta clicar no botão submit !";
+                    document.getElementById("asd").remove();
+                i++;
+                    
+                    return;
+                }
+                respostas.push(document.querySelector('input[type="radio"]:checked').nextElementSibling.textContent)
                 i++;
                 document.getElementById("pergunta").innerHTML=questions[i];
-            
+                document.getElementById("l1").innerHTML=answer[i][0];
+                document.getElementById("l2").innerHTML=answer[i][1];
+                document.getElementById("l3").innerHTML=answer[i][2];
+                document.getElementById("l4").innerHTML=answer[i][3]; 
+                document.getElementById("mybar").innerHTML=i+1;
+                                 
+                var elem = document.getElementById("mybar");
+                width+=25;
+                elem.style.width = width + "%";
+               
             }
 
+            document.getElementById("submit-button").addEventListener("click",Submitquiz);
+            let corretas=0;
+            function Submitquiz(e){
+                if(i<4){
 
-            function nextAnswer(e) {
-                j++;
-            document.getElementById("r1").innerHTML=answer[j][0];
-            document.getElementById("r2").innerHTML=answer[j][1];
-            document.getElementById("r3").innerHTML=answer[j][2];
-            document.getElementById("r4").innerHTML=answer[j][3];
+                    document.getElementById("alerta").innerHTML="Você deve responder todas as perguntas antes de submeter!"
+                    return;
+                }
+                
+                for(let j=0;j<4;j++){
+                    if(rightAns[j]===respostas[j])corretas++;
+                }
+
+                let res=(corretas)/4
+            document.getElementById("results").innerHTML="Você acertou "+ res*100 + "% das respostas !";
 
             }
-
-
+           
             
+
+
+           
         </script>
         
         
     </body>
 </html>
-
