@@ -14,7 +14,16 @@ exports.getBySlug = (req, res, next) => {
 }
 
 exports.get = (req, res, next) => {
-    Product.find({}, 'title price')
+    Product.find({})
+        .then(x => {
+            res.status(201).send(x);
+        }).catch(e => {
+            res.status(400).send(e);
+        })
+}
+
+exports.getById = (req, res, next) => {
+    Product.findById(req.params.id)
         .then(x => {
             res.status(201).send(x);
         }).catch(e => {
@@ -36,13 +45,25 @@ exports.post = (req, res, next) => {
 
 
 exports.put = (req, res, next) => {
-    const id = req.params.id;
-    res.status(200).send({
-        id: id,
-        item: req.body
+    Product.findByIdAndUpdate(req.params.id, {
+        $set: {
+            name: req.body.name,
+            description: req.body.description,
+            price: req.body.price
+        }
+    }).then(x => {
+        res.status(201).send({ message: 'ProduTo atualizado' });
+    }).catch(e => {
+        res.status(400).send({ message: 'falha na atualização', data: e });
+
     });
 };
 
 exports.delete = (req, res, next) => {
-    res.status(200).send(req.body);
+    Product.findOneAndRemove(req.params.id).then(x => {
+        res.status(201).send({ message: 'ProduTo removido' });
+    }).catch(e => {
+        res.status(400).send({ message: 'falha na remoção', data: e });
+
+    });
 };
